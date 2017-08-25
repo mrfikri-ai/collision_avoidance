@@ -1,4 +1,74 @@
+// this programming code purpose is for forward movement for mini drone spider
+// So there will be no significant different between the previous code 'sample1.js'
 
+'use strict';
+
+var five = require("johnny-five");
+var keypress = require('keypress');
+var RollingSpider = require("rolling-spider");
+keypress(process.stdin);
+process.stdin.setRawMode(true);
+process.stdin.resume();
+
+var ACTIVE = true;
+var STEPS = 5;
+var d = new RollingSpider({uuid:"e014c2d73d80"});
+
+function cooldown() {
+	ACTIVE = false;
+	setTimeout(function (){
+		ACTIVE = true;
+	}, STEPS);
+}
+
+d.connect(function () {
+	
+	d.setup(function(){
+		console.log('Configured for Rolling Spider! ', d.name);
+		d.flatTrim();
+		d.startPing();
+		d.flatTrim();
+		setTimeout(function(){
+			console.log(d.name+ ' => SESSION START');
+			ACTIVE = true;
+		}, 1000);
+	});
+});
+
+var board = new five.Board({
+	port: "/dev/ttyMFD1"
+});
+
+var cnt=0; //I would like to use this parameter for moving forward indicators
+var stflag=0;
+
+//timer
+var start= new Date();
+var end;
+var executionTime;
+const interval=33;
+
+// moving parameter
+var state= 0;
+var STATE0=0; //hovering
+var STATE1=1; //Forward
+
+board.on("ready",function(){
+	
+	// Activate the photo IC
+	var photo1 = new five.Sensor({
+		pin: "A2",
+		freq: 10 //10ms sampling
+	});
+	var photo2 = new five.Sensor({
+		pin: "A1",
+		freq: 10 //10 ms sampling
+	});
+	
+	//for photo IC Rightside
+	photo1.on('data', function(value){
+		// no specific functon here
+	});
 	
 	//for photo IC Leftside
 	photo2.on('data', function(value){
@@ -13,7 +83,6 @@
 			console.log('turn left');
 			cooldown();
 		}
-	}
 	
 	// this for timer of the node.js
 	end = new Date();
@@ -21,13 +90,12 @@
 	while(executionTime < interval) {
 		end = new Date();
 		executionTime = end.getTime() - start.getTime();
-    }
-    start = new Date();
+    	}
+    	start = new Date();
 	
 	console.log(photo1.value+ ',', photo2.value);
-	
-	
-}
+	});	
+});
 
 // listen for the "keypress" event
 process.stdin.on('keypress', function (ch, key) {
@@ -37,9 +105,9 @@ process.stdin.on('keypress', function (ch, key) {
 		if (key.name === 'l') {
 			console.log('land');
 			d.land();
-      led1.off();
+      			led1.off();
 			led2.off();
-      stflag=0;
+      			stflag=0;
 		} else if (key.name === 't') {
 			console.log('takeoff');
 			d.takeOff();
@@ -94,7 +162,7 @@ process.stdin.on('keypress', function (ch, key) {
 		if (key.name === 'g') {
 			stflag=1;
 		}
-    if (key.name === 's') {
+   		 if (key.name === 's') {
 			state=STATE1;
 			cnt = 0;
 		}
