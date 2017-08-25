@@ -154,12 +154,16 @@ process.stdin.on('keypress', function (ch, key) {
 			d.backFlip();
 			cooldown();
 		}
+		
+		// Since this code only for take-off, landing, and avoiding the collision
+		// You can ignore or delete the below parts
+		
 		if (key.name === 'g') {
 			stflag=1;
 		}
-    if (key.name === 's') {
+ 		if (key.name === 's') {
 			state=STATE1;
-      cnt = 0;
+      			cnt = 0;
 		}
 
 	}
