@@ -1,3 +1,6 @@
+// this programming code purpose is for take-off, landing, and avoiding the collision
+// created by: Muhamad Rausyan Fikri - Tokyo Tech
+
 'use strict';
 
 var five = require("johnny-five");
@@ -36,14 +39,19 @@ var board = new five.Board({
 	port: "/dev/ttyMFD1"
 });
 
+var cnt=0; //I would like to use this parameter for moving forward indicators
 var stflag=0;
-var cnt = 0;
 
 //timer
 var start= new Date();
 var end;
 var executionTime;
 const interval=33;
+
+// moving parameter
+var state= 0;
+var STATE0=0; //hovering
+var STATE1=1; //Forward
 
 board.on("ready",function(){
 	
@@ -75,7 +83,6 @@ board.on("ready",function(){
 			console.log('turn left');
 			cooldown();
 		}
-	}
 	
 	// this for timer of the node.js
 	end = new Date();
@@ -83,14 +90,12 @@ board.on("ready",function(){
 	while(executionTime < interval) {
 		end = new Date();
 		executionTime = end.getTime() - start.getTime();
-    }
-    start = new Date();
+    	}
+    	start = new Date();
 	
 	console.log(photo1.value+ ',', photo2.value);
-	
-}
-
-
+	});	
+});
 
 // listen for the "keypress" event
 process.stdin.on('keypress', function (ch, key) {
@@ -100,9 +105,9 @@ process.stdin.on('keypress', function (ch, key) {
 		if (key.name === 'l') {
 			console.log('land');
 			d.land();
-      led1.off();
+      			led1.off();
 			led2.off();
-      stflag=0;
+      			stflag=0;
 		} else if (key.name === 't') {
 			console.log('takeoff');
 			d.takeOff();
@@ -154,16 +159,12 @@ process.stdin.on('keypress', function (ch, key) {
 			d.backFlip();
 			cooldown();
 		}
-		
-		// Since this code only for take-off, landing, and avoiding the collision
-		// You can ignore or delete the below parts
-		
 		if (key.name === 'g') {
 			stflag=1;
 		}
- 		if (key.name === 's') {
+   		 if (key.name === 's') {
 			state=STATE1;
-      			cnt = 0;
+			cnt = 0;
 		}
 
 	}
