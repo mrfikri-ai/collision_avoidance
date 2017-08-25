@@ -1,4 +1,72 @@
+'use strict';
 
+var five = require("johnny-five");
+var keypress = require('keypress');
+var RollingSpider = require("rolling-spider");
+keypress(process.stdin);
+process.stdin.setRawMode(true);
+process.stdin.resume();
+
+var ACTIVE = true;
+var STEPS = 5;
+var d = new RollingSpider({uuid:"e014c2d73d80"});
+
+function cooldown() {
+	ACTIVE = false;
+	setTimeout(function (){
+		ACTIVE = true;
+	}, STEPS);
+}
+
+d.connect(function () {
+	
+	d.setup(function(){
+		console.log('Configured for Rolling Spider! ', d.name);
+		d.flatTrim();
+		d.startPing();
+		d.flatTrim();
+		setTimeout(function(){
+			console.log(d.name+ ' => SESSION START');
+			ACTIVE = true;
+		}, 1000);
+	});
+});
+
+var board = new five.Board({
+	port: "/dev/ttyMFD1"
+});
+
+var stflag=0;
+var cnt = 0;
+
+//timer
+var start= new Date();
+var end;
+var executionTime;
+const interval=33;
+
+board.on("ready",function(){
+	
+	// Activate the photo IC
+	var photo1 = new five.Sensor({
+		pin: "A2",
+		freq: 10 //10ms sampling
+	});
+	var photo2 = new five.Sensor({
+		pin: "A1",
+		freq: 10 //10 ms sampling
+	});
+	
+	//for photo IC Rightside
+	photo1.on('data', function(value){
+		// no specific functon here
+	});
+	
+	//for photo IC Leftside
+	photo2.on('data', function(value){
+		// Here we declare the function of the right and the left sensor
+		if(photo1 < 850){
+			d.tiltRight({steps: STEPS});
 			console.log('turn right');
 			cooldown();
 		}
@@ -86,9 +154,6 @@ process.stdin.on('keypress', function (ch, key) {
 			d.backFlip();
 			cooldown();
 		}
-    
-    // This part to start begin the task.
-    // You can ignore it since this code purposes only for take-off, landing, and avoiding the collision
 		if (key.name === 'g') {
 			stflag=1;
 		}
