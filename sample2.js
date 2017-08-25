@@ -1,5 +1,6 @@
 // this programming code purpose is for forward movement for mini drone spider
 // So there will be no significant different between the previous code 'sample1.js'
+// Created by: Muhamad Rausyan Fikri - Tokyo Tech
 
 'use strict';
 
