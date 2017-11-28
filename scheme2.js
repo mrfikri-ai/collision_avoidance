@@ -139,26 +139,6 @@ board.on("ready",function(){
 				cooldown();
 				dobs = 0;
 			}
-/*
-//				else if (dobs == 3){
-//				d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
-//				cooldown();
-//				dobs = 1;
-//				
-
-				}
-			else{
-				dobs=0
-			}
-			if(dobs==1){
-				d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:90});
-				cooldown();
-				stflag=0;
-			}else{
-				d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
-				cooldown();
-			}
-*/
 
 		}
 	
