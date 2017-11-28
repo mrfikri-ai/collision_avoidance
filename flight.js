@@ -129,13 +129,13 @@ board.on("ready",function(){
 				
 				d.XYZ({speed_X:10,speed_Y:0,speed_Z:0,speed_omega:0});
 				cooldown();
-
+/*
 //				else if (dobs == 3){
 //				d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
 //				cooldown();
 //				dobs = 1;
 //				
-/*
+
 				}
 			else{
 				dobs=0
@@ -151,12 +151,13 @@ board.on("ready",function(){
 */
 
 						
+			}
+			else{
+				d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
+				cooldown();
+				dobs = 0;
+			}
 		}
-				else{
-					d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
-					cooldown();
-					dobs = 0;
-				}
 	
 	// this for timer of the node.js
 	end = new Date();  
@@ -168,8 +169,8 @@ board.on("ready",function(){
     	start = new Date();
 	
 	console.log(photo1.value+ ',', photo2.value + ',', photo3.value);
-	});	
-});
+	});	// photo2 if end
+}); // board end
 
 // listen for the "keypress" event
 process.stdin.on('keypress', function (ch, key) {
