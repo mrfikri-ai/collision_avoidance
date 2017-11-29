@@ -129,7 +129,7 @@ board.on("ready",function(){
 					dobs = 1;
 				}
 				else if(dobs == 1){
-					d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:180});
+					d.XYZ({speed_X:5,speed_Y:0,speed_Z:0,speed_omega:0});
 					cooldown();
 				}
 
