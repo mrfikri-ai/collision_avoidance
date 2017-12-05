@@ -135,9 +135,11 @@ board.on("ready",function(){
 
 			}
 			else{
-				d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
-				cooldown();
-				dobs = 0;
+				setInterval(function(){
+					d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
+					cooldown();
+					dobs = 0;
+				},500); //execute this command every 500ms
 			}
 
 		}
