@@ -145,7 +145,7 @@ board.on("ready",function(){
 		}
 	
 	// this for timer of the node.js
-	end = new D ate();  
+	end = new Date();  
 	executionTime = end.getTime() - start.getTime();
 	while(executionTime < interval) {
 		end = new Date();
