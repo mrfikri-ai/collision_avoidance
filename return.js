@@ -123,44 +123,47 @@ board.on("ready",function(){
 				cooldown();
 			}
 			//front sensor
-/*			if(photo2.value < 850){
-				if(dobs==0){
-					d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
-					cooldown();
-					dobs = 1;
-					turnFlag = true;
-					cnt=0;
-				}
+			if(photo2.value < 850){
+				d.backward({steps: -2*gain*(initial-STePS)});
+				cooldown();
 			}
-			if(turnFlag){
-					d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:180});
-					cooldown();
-					if(cnt>100) turnFlag = false;
-			}
-			else if(turnFlag==false){
-				setInterval(function(){
-					d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
-					cooldown();
-					dobs = 0;
-				},500); //execute this command every 500ms				
+//			if(photo2.value < 850){
+//				if(dobs==0){
+//					d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
+//					cooldown();
+//					dobs = 1;
+//					turnFlag = true;
+//					cnt=0;
+//				}
+//			}
+//			if(turnFlag){
+//					d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:180});
+//					cooldown();
+//					if(cnt>100) turnFlag = false;
+//			}
+//			else if(turnFlag==false){
+//				setInterval(function(){
+//					d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
+//					cooldown();
+//					dobs = 0;
+//				},500); //execute this command every 500ms				
 //				d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
 //				cooldown();
 //				dobs = 0;
-			}
-			
-		}
+//			}
+//			
+//		}
 	
 		// this for timer of the node.js
-		end = new D ate();  
+		end = new Date();  
 		executionTime = end.getTime() - start.getTime();
 		
 		while(executionTime < interval) {
 			end = new Date();
 			executionTime = end.getTime() - start.getTime();
-    	}
-    	start = new Date();
-	
-	console.log(photo1.value+ ',', photo2.value + ',', photo3.value);
+    		}
+    		start = new Date();
+		console.log(photo1.value+ ',', photo2.value + ',', photo3.value);
 	});	// photo2 if end
 }); // board end
 
