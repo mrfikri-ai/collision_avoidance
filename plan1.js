@@ -119,8 +119,13 @@ board.on("ready",function(){
       	m =0;
 	cnt = cnt+1;
 	for(m=0; m<=100; m++){
-		d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});	
-		cooldown();
+		
+		setInterval(function(){
+			d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});	
+			cooldown();
+			m = m+1;
+		},1000); //interval each 1000 ms 
+		
 		//right sensor function
       		if(photo1.value < 850){
 			d.tiltLeft({steps: -gain*(initial-STEPS)});
