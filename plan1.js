@@ -115,38 +115,38 @@ board.on("ready",function(){
 	
 	// for photo IC in the front side 
 	photo2.on('data', function(value){
-		cnt = cnt+1;
-    if(stflag == 1){
-      //right sensor function
-      if(photo1.value < 850){
-				d.tiltLeft({steps: -gain*(initial-STEPS)});
-				cooldown();
-			} //end of right sensor function
+    	if(stflag == 1){
+      	m =0;
+	cnt = cnt+1;
+	for(m=0; m<=100; m++){
+		d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});	
+		cooldown();
+		//right sensor function
+      		if(photo1.value < 850){
+			d.tiltLeft({steps: -gain*(initial-STEPS)});
+			cooldown();
+		} //end of right sensor function
       
-      //left sensor
-			if(photo3.value < 850){
-				d.tiltRight({steps: -gain*(initial-STEPS)});
-				cooldown();
-			} //end of left sensor function
+	      	//left sensor
+		if(photo3.value < 850){
+			d.tiltRight({steps: -gain*(initial-STEPS)});
+			cooldown();
+		} //end of left sensor function
       
-      //front sensor
-      if(photo2.value < 850){
-        if(dobs == 0) {
-          d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
+	      	//front sensor
+      		if(photo2.value < 850){
+        			if(dobs == 0) {
+          				d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
 					cooldown();
 					dobs = 1;
-        } //end of dobs, this is to stop the drone movement
-        else if(dobs == 1){
+		        	} //end of dobs, this is to stop the drone movement
+        			else if(dobs == 1){
 					d.XYZ({speed_X:5,speed_Y:0,speed_Z:0,speed_omega:0});
 					cooldown();
 				} //if the drone stop, and still detect the object in the front, then move to the right
-      } //end of front sensor
-      
-      // this function for moving forward every loop occurs
-      d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});	
-					cooldown();
-      m = m + 5;
-    } //end of if stflag
+      		} //end of front sensor      
+	}//end of for function
+	} //end of if stflag
     
 /*		if (stflag==1){
 			//right sensor
