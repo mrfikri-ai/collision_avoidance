@@ -185,8 +185,8 @@ board.on("ready",function(){
 				},500); //execute this command every 500ms
 			}
 
-*/		}
-	
+		}
+*/	
 	// this for timer of the node.js
 	end = new Date();  
 	executionTime = end.getTime() - start.getTime();
