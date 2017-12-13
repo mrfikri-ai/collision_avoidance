@@ -116,17 +116,23 @@ board.on("ready",function(){
 	// for photo IC in the front side 
 	photo2.on('data', function(value){
     	if(stflag == 1){
+		m = 0;
 		cnt = cnt+1;
-		if(m<=100){
-			// the drone will move forward each second
-			setInterval(function(){
-				d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});	
+		for(m=0; m<100; m++){
+			(function(m){
+				d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
 				cooldown();
-				m = m+1;
-			},1000); //interval each 1000 ms 
-		} //end if
+			})(m); //end for function m
+			// the drone will move forward each second
+			//setInterval(function(){
+			//	d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});	
+			//	cooldown();
+			//	m = m+1;
+			//},1000); //interval each 1000 ms 
+		} //end for
+		
 		//right sensor function
-      	if(photo1.value < 850){
+      		if(photo1.value < 850){
 			d.tiltLeft({steps: -gain*(initial-STEPS)});
 			cooldown();
 		} //end of right sensor function
@@ -138,11 +144,11 @@ board.on("ready",function(){
 		} //end of left sensor function
       
 	      	//front sensor
-      	if(photo2.value < 850){
-        	if(dobs == 0) {
-          		d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
-			cooldown();
-			dobs = 1;
+      		if(photo2.value < 850){
+        		if(dobs == 0) {
+          			d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
+				cooldown();
+				dobs = 1;
 	    	} //end of dobs, this is to stop the drone movement
         	else if(dobs == 1){
 			d.XYZ({speed_X:5,speed_Y:0,speed_Z:0,speed_omega:0});
