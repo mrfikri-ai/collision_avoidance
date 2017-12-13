@@ -148,7 +148,7 @@ board.on("ready",function(){
     	}
     	start = new Date();
 	
-	console.log(photo1.value+ ',', photo2.value + ',', photo3.value);
+	console.log(photo1.value+ ',', photo2.value + ',', photo3.value + ',', m);
 	});	// end of photo2 value
 }); // board end
 
