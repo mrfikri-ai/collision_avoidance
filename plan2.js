@@ -114,82 +114,42 @@ board.on("ready",function(){
 	});
 	
 	// for photo IC in the front side 
-	photo2.on('data', function(value)	
-	if(stflag == 1){
-		m = 0;
-		cnt = cnt+1;
-		for(m=0; m<100; m++){
+	photo2.on('data', function(value){	
+	m = 0;
+	for (m=0; m<=100; m++){
+		if(stflag == 1){
 			(function(m){
 				d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
 				cooldown();
-			})(m); //end for function m
-			// the drone will move forward each second
-			//setInterval(function(){
-			//	d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});	
-			//	cooldown();
-			//	m = m+1;
-			//},1000); //interval each 1000 ms 
-		} //end for
+			})(m); //end of function(m)
+		} // if stflag end
 		
-		//right sensor function
-      		if(photo1.value < 850){
+		//define right sensor
+		if(photo1.value < 850){
 			d.tiltLeft({steps: -gain*(initial-STEPS)});
 			cooldown();
-		} //end of right sensor function
-      
-	      	//left sensor
+		} //end of right sensor
+		
+		//define left sensor
 		if(photo3.value < 850){
 			d.tiltRight({steps: -gain*(initial-STEPS)});
 			cooldown();
-		} //end of left sensor function
-      
-	      	//front sensor
-      		if(photo2.value < 850){
-        		if(dobs == 0) {
-          			d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
+		} //end of left sensor
+		
+		//define front sensor 
+		if(photo2.value < 850){
+			if(dobs == 0){
+				d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
 				cooldown();
 				dobs = 1;
-	    	} //end of dobs, this is to stop the drone movement
-        	else if(dobs == 1){
-			d.XYZ({speed_X:5,speed_Y:0,speed_Z:0,speed_omega:0});
-			cooldown();
-		} //if the drone stop, and still detect the object in the front, then move to the right
-      	} //end of front sensor      
-//	}//end of for function
-	} //end of if stflag
-    
-/*		if (stflag==1){
-			//right sensor
-			if(photo1.value < 850){
-				d.tiltLeft({steps: -gain*(initial-STEPS)});
+			} //end of dobs
+			else if(dobs == 1){
+				d.XYZ({speed_X:5,speed_Y:0,speed_Z:0,speed_omega:0});
 				cooldown();
-			}
-			//left sensor
-			if(photo3.value < 850){
-				d.tiltRight({steps: -gain*(initial-STEPS)});
-				cooldown();
-			}
-			//front sensor
-			if(photo2.value < 850){
-				if(dobs==0){
-					d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
-					cooldown();
-					dobs = 1;
-				}
-				else if(dobs == 1){
-					d.XYZ({speed_X:5,speed_Y:0,speed_Z:0,speed_omega:0});
-					cooldown();
-				}
-			}
-			else{
-				setInterval(function(){
-					d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
-					cooldown();
-					dobs = 0;
-				},500); //execute this command every 500ms
-			}
-		}
-*/	
+			} // end of else if
+		} //end of front sensor
+	} // for end
+		
 	// this for timer of the node.js
 	end = new Date();  
 	executionTime = end.getTime() - start.getTime();
