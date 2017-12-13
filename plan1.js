@@ -115,7 +115,7 @@ board.on("ready",function(){
 	
 	// for photo IC in the front side 
 	photo2.on('data', function(value){
-    if(stflag == 1){
+    	if(stflag == 1){
 		cnt = cnt+1;
 		if(m<=100){
 			// the drone will move forward each second
@@ -124,7 +124,7 @@ board.on("ready",function(){
 				cooldown();
 				m = m+1;
 			},1000); //interval each 1000 ms 
-		}
+		} //end if
 		//right sensor function
       	if(photo1.value < 850){
 			d.tiltLeft({steps: -gain*(initial-STEPS)});
@@ -139,15 +139,15 @@ board.on("ready",function(){
       
 	      	//front sensor
       	if(photo2.value < 850){
-        			if(dobs == 0) {
-          				d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
-					cooldown();
-					dobs = 1;
-		        	} //end of dobs, this is to stop the drone movement
-        			else if(dobs == 1){
-					d.XYZ({speed_X:5,speed_Y:0,speed_Z:0,speed_omega:0});
-					cooldown();
-				} //if the drone stop, and still detect the object in the front, then move to the right
+        	if(dobs == 0) {
+          		d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
+			cooldown();
+			dobs = 1;
+	    	} //end of dobs, this is to stop the drone movement
+        	else if(dobs == 1){
+			d.XYZ({speed_X:5,speed_Y:0,speed_Z:0,speed_omega:0});
+			cooldown();
+		} //if the drone stop, and still detect the object in the front, then move to the right
       	} //end of front sensor      
 //	}//end of for function
 	} //end of if stflag
