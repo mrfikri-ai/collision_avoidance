@@ -94,28 +94,17 @@ board.on("ready",function(){
 	//for photo IC Rightside
 	photo1.on('data', function(value){
 		// Here we declare the function of the right and the left sensor
-		//if(photo1.value < 850){
-		//	d.tiltLeft({steps: -gain*(initial-STEPS)});
-		//	led1.on();
-		//	console.log('turn right');
-		//	cooldown();
-		//}
+		
 	});
 	
 	//for photo IC Leftside
 	photo3.on('data', function(value){
 		// Here we declare the function of the right and the left sensor
-		//if(photo3.value < 850){
-		//	d.tiltRight({steps: -gain*(initial-STEPS)});
-		//	led1.on();
-		//	console.log('turn right');
-		//	cooldown();
-		//}
 	});
 	
 	// for photo IC in the front side 
 	photo2.on('data', function(value){	
-	m = 0;
+		m = 0;
 	for (m=0; m<=100; m++){
 		if(stflag == 1){
 			(function(m){
@@ -160,7 +149,7 @@ board.on("ready",function(){
     	start = new Date();
 	
 	console.log(photo1.value+ ',', photo2.value + ',', photo3.value);
-	});	// photo2 if end
+	});	// end of photo2 value
 }); // board end
 
 // listen for the "keypress" event
