@@ -122,11 +122,41 @@ board.on("ready",function(){
 					case STATE0:
 						d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
 						cooldown();
+						state = STATE1;
+						cnt = 0;
 					break;
-			}
-		}
-		
-		
+					
+					case STATE1:
+						if (cnt == 30){
+						d.XYZ({speed_X:5,speed_Y:0,speed_Z:0,speed_omega:0});	
+						cooldown();
+						state = STATE0;
+						cnt = 0;
+						}
+				} //end of switch
+			} // end of front sensor
+			
+			else{
+				state = STATE0;
+				cnt = cnt + 1;
+				switch(state){
+					case STATE0:
+						d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});	
+						cooldown();
+						cnt = 0;
+						state = STATE1;
+					break;
+					
+					case STATE1: 
+						if(cnt == 30){
+						d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
+						cooldown();
+						cnt = 0;
+						}
+					break;
+				} //end of switch
+			} //the end of else
+		} //end of stflag
 		
 	// this for timer of the node.js
 	end = new Date();  
