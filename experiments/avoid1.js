@@ -141,17 +141,21 @@ board.on("ready",function(){
 				cnt = cnt + 1;
 				switch(state){
 					case STATE0:
+						if(cnt == 30){
 						d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});	
 						cooldown();
 						cnt = 0;
 						state = STATE1;
+						}
+						
 					break;
 					
 					case STATE1: 
-						if(cnt == 30){
+						if(cnt == 60){
 						d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
 						cooldown();
 						cnt = 0;
+						state = STATE0;
 						}
 					break;
 				} //end of switch
