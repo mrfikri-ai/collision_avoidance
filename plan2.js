@@ -49,6 +49,7 @@ var start= new Date();
 var end;
 var executionTime;
 const interval=33;
+const intervals = 1000;
 
 // moving parameter
 var state= 0;
@@ -100,6 +101,17 @@ board.on("ready",function(){
 	//for photo IC Leftside
 	photo3.on('data', function(value){
 		// Here we declare the function of the right and the left sensor
+	
+	// this for timer of the node.js
+	end = new Date();  
+	executionTime = end.getTime() - start.getTime();
+	while(executionTime < interval) {
+		end = new Date();
+		executionTime = end.getTime() - start.getTime();
+    	}
+    	start = new Date();
+	
+	console.log(photo1.value+ ',', photo2.value + ',', photo3.value);
 	});
 	
 	// for photo IC in the front side 
@@ -143,13 +155,13 @@ board.on("ready",function(){
 	// this for timer of the node.js
 	end = new Date();  
 	executionTime = end.getTime() - start.getTime();
-	while(executionTime < interval) {
+	while(executionTime < intervals) {
 		end = new Date();
 		executionTime = end.getTime() - start.getTime();
     	}
     	start = new Date();
 	
-	console.log(photo1.value+ ',', photo2.value + ',', photo3.value + ',', m);
+//	console.log(photo1.value+ ',', photo2.value + ',', photo3.value + ',', m);
 	});	// end of photo2 value
 }); // board end
 
