@@ -52,9 +52,9 @@ var executionTime;
 const interval=33;
 
 // moving parameter
-var state= 0;
-var STATE0=0; //hovering
-var STATE1=1; //Right
+var state;
+const STATE0=0; //hovering
+const STATE1=1; //Right
 
 var gain = 5; //gain for collision avoidance
 var initial = 0;
@@ -101,21 +101,28 @@ board.on("ready",function(){
 	// for photo IC in the front side 
 	photo2.on('data', function(value){
 		if(stflag == 1){
-			
 			//right sensor
 			if(photo1.value < 850){
 				d.tiltLeft({steps: -gain*(initial-STEPS)});
 				cooldown();
-			}
+			}                             
 			
 			//left sensor
 			if(photo3.value < 850){
 				d.tiltRight({steps: -gain*(initial-STEPS)});
 				cooldown();
+
 			}
 			
 			//front sensor
 			if(photo2.value < 850){
+				state = STATE0;
+				cnt = cnt+1;
+				switch(state){
+					case STATE0:
+						d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
+						cooldown();
+					break;
 			}
 		}
 		
@@ -124,7 +131,7 @@ board.on("ready",function(){
 	// this for timer of the node.js
 	end = new Date();  
 	executionTime = end.getTime() - start.getTime();
-	while(executionTime < intervals) {
+	while(executionTime < interval) {
 		end = new Date();
 		executionTime = end.getTime() - start.getTime();
     	}
