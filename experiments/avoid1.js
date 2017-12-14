@@ -50,19 +50,14 @@ var start= new Date();
 var end;
 var executionTime;
 const interval=33;
-const intervals = 1000;
 
 // moving parameter
 var state= 0;
 var STATE0=0; //hovering
-var STATE1=1; //Forward
+var STATE1=1; //Right
 
 var gain = 5; //gain for collision avoidance
 var initial = 0;
-var led1;
-var left;
-var right;
-var front;
 var dobs = 0;
 var cnt = 0;
 
@@ -96,62 +91,35 @@ board.on("ready",function(){
 	//for photo IC Rightside
 	photo1.on('data', function(value){
 		// Here we declare the function of the right and the left sensor
-		
 	});
 	
 	//for photo IC Leftside
 	photo3.on('data', function(value){
 		// Here we declare the function of the right and the left sensor
-	
-	// this for timer of the node.js
-	end = new Date();  
-	executionTime = end.getTime() - start.getTime();
-	while(executionTime < interval) {
-		end = new Date();
-		executionTime = end.getTime() - start.getTime();
-    	}
-    	start = new Date();
-	
-	console.log(photo1.value+ ',', photo2.value + ',', photo3.value);
 	});
 	
 	// for photo IC in the front side 
-	photo2.on('data', function(value){	
-		m = 0;
-//	for (m=0; m<=100; m++){
+	photo2.on('data', function(value){
 		if(stflag == 1){
-//			(function(m){
-//				d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
-//				cooldown();
-//			})(m); //end of function(m)
-//		} // if stflag end
-		
-		//define right sensor
-		if(photo1.value < 850){
-			d.tiltLeft({steps: -gain*(initial-STEPS)});
-			cooldown();
-		} //end of right sensor
-		
-		//define left sensor
-		if(photo3.value < 850){
-			d.tiltRight({steps: -gain*(initial-STEPS)});
-			cooldown();
-		} //end of left sensor
-		
-		//define front sensor 
-		if(photo2.value < 850){
-			if(dobs == 0){
-				d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
+			
+			//right sensor
+			if(photo1.value < 850){
+				d.tiltLeft({steps: -gain*(initial-STEPS)});
 				cooldown();
-				dobs = 1;
-			} //end of dobs
-			else if(dobs == 1){
-				d.XYZ({speed_X:5,speed_Y:0,speed_Z:0,speed_omega:0});
+			}
+			
+			//left sensor
+			if(photo3.value < 850){
+				d.tiltRight({steps: -gain*(initial-STEPS)});
 				cooldown();
-			} // end of else if
-		} // if stflag end
-	} //end of front sensor
-//	} // for end
+			}
+			
+			//front sensor
+			if(photo2.value < 850){
+			}
+		}
+		
+		
 		
 	// this for timer of the node.js
 	end = new Date();  
@@ -161,8 +129,7 @@ board.on("ready",function(){
 		executionTime = end.getTime() - start.getTime();
     	}
     	start = new Date();
-	
-//	console.log(photo1.value+ ',', photo2.value + ',', photo3.value + ',', m);
+	console.log(photo1.value+ ',', photo2.value + ',', photo3.value + ',', m);
 	});	// end of photo2 value
 }); // board end
 
