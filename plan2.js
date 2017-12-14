@@ -105,13 +105,13 @@ board.on("ready",function(){
 	// for photo IC in the front side 
 	photo2.on('data', function(value){	
 		m = 0;
-	for (m=0; m<=100; m++){
+//	for (m=0; m<=100; m++){
 		if(stflag == 1){
-			(function(m){
-				d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
-				cooldown();
-			})(m); //end of function(m)
-		} // if stflag end
+//			(function(m){
+//				d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});
+//				cooldown();
+//			})(m); //end of function(m)
+//		} // if stflag end
 		
 		//define right sensor
 		if(photo1.value < 850){
@@ -136,8 +136,9 @@ board.on("ready",function(){
 				d.XYZ({speed_X:5,speed_Y:0,speed_Z:0,speed_omega:0});
 				cooldown();
 			} // end of else if
-		} //end of front sensor
-	} // for end
+		} // if stflag end
+	} //end of front sensor
+//	} // for end
 		
 	// this for timer of the node.js
 	end = new Date();  
