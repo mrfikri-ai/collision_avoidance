@@ -151,12 +151,10 @@ board.on("ready",function(){
 					break;
 					
 					case STATE1: 
-//						if(cnt == 60){
 						d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
 						cooldown();
 						cnt = 0;
 						state = STATE0;
-//						}
 					break;
 				} //end of switch
 			} //the end of else
