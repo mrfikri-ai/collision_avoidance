@@ -190,6 +190,7 @@ process.stdin.on('keypress', function (ch, key) {
 		} else if (key.name === 'h') {
 			console.log('hover');
 			d.hover();
+			stflag = 0;
 		} else if (key.name === 'x') {
 			console.log('disconnect');
 			d.disconnect();
