@@ -122,11 +122,13 @@ board.on("ready",function(){
 					case STATE0:
 						d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
 						cooldown();
+						stflag = 0; 
 						state = STATE1;
 						cnt = 0;
 					break;
 					
 					case STATE1:
+						stflag = 1;
 						if (cnt == 30){
 						d.XYZ({speed_X:5,speed_Y:0,speed_Z:0,speed_omega:0});	
 						cooldown();
