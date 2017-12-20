@@ -248,7 +248,7 @@ process.stdin.on('keypress', function (ch, key) {
 		if (key.name === 'g') {
 			stflag=1;
 		}
-   		 if (key.name === 's') {
+   		 if (key.name === 'z') {
 			//state=STATE1;
 			//cnt = 0;
 			stflag = 0;
