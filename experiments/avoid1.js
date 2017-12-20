@@ -137,7 +137,7 @@ board.on("ready",function(){
 					break;
 					
 					case STATE2:
-						d.backward({steps: -gain*(initial-STEPS)});
+						d.XYZ({speed_X:0,speed_Y:-40,speed_Z:0,speed_omega:0});
 						cooldown();
 						cnt = 0;
 						state = STATE0;
@@ -151,8 +151,8 @@ board.on("ready",function(){
 				cnt = cnt + 1;
 				switch(state){
 					case STATE0:
-						if(cnt == 15){
-						d.XYZ({speed_X:0,speed_Y:10,speed_Z:0,speed_omega:0});	
+						if(cnt == 30){
+						d.XYZ({speed_X:0,speed_Y:30,speed_Z:0,speed_omega:0});	
 						cooldown();
 						cnt = 0;
 						state = STATE1;
