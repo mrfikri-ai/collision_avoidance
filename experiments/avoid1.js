@@ -63,6 +63,7 @@ var cnt = 0;
 
 //determine the step of drone
 var m = 0; // this is move indicator
+var led1;
 
 board.on("ready",function(){
 	led1=new five.Led(9);
