@@ -55,15 +55,16 @@ const interval=33;
 var state;
 const STATE0=0; //hovering
 const STATE1=1; //Right
+const STATE2=2; //Backward
 
 var gain = 5; //gain for collision avoidance
 var initial = 0;
 var dobs = 0;
 var cnt = 0;
+var led1;
 
 //determine the step of drone
 var m = 0; // this is move indicator
-var led1;
 
 board.on("ready",function(){
 	led1=new five.Led(9);
@@ -124,18 +125,24 @@ board.on("ready",function(){
 						d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
 						cooldown();
 						stflag = 0; 
-						state = STATE1;
+						state = STATE2;
 						cnt = 0;
 					break;
 					
 					case STATE1:
-//						stflag = 1;
-//						if (cnt == 30){
-						d.XYZ({speed_X:5,speed_Y:0,speed_Z:0,speed_omega:0});	
+						d.XYZ({speed_X:10,speed_Y:0,speed_Z:0,speed_omega:0});	
 						cooldown();
-						state = STATE0;
+						state = STATE2;
 						cnt = 0;
-//						}
+					break;
+					
+					case STATE2:
+						d.backward({steps: -gain*(initial-STEPS)});
+						cooldown();
+						cnt = 0;
+						state = STATE0;
+					break;	
+
 				} //end of switch
 			} // end of front sensor
 			
@@ -144,8 +151,8 @@ board.on("ready",function(){
 				cnt = cnt + 1;
 				switch(state){
 					case STATE0:
-						if(cnt == 30){
-						d.XYZ({speed_X:0,speed_Y:5,speed_Z:0,speed_omega:0});	
+						if(cnt == 15){
+						d.XYZ({speed_X:0,speed_Y:10,speed_Z:0,speed_omega:0});	
 						cooldown();
 						cnt = 0;
 						state = STATE1;
@@ -159,6 +166,7 @@ board.on("ready",function(){
 						cnt = 0;
 						state = STATE0;
 					break;
+
 				} //end of switch
 			} //the end of else
 		} //end of stflag
@@ -241,8 +249,9 @@ process.stdin.on('keypress', function (ch, key) {
 			stflag=1;
 		}
    		 if (key.name === 's') {
-			state=STATE1;
-			cnt = 0;
+			//state=STATE1;
+			//cnt = 0;
+			stflag = 0;
 		}
 
 	}
