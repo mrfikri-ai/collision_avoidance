@@ -1,19 +1,31 @@
-// this is test
-// coding part 1 - not final form
-
 'use strict';
 
+// Serial port function
+var serialport = require("serialport");
+var SerialPort = serialport.SerialPort;
+
+var serialPort = new SerialPort("/dev//dev/ttyMFD1",{
+	baudrate: 9600,
+	parser: serialport.parsers.readline("\n")
+});
+
+// johnny five
 var five = require("johnny-five");
+
+// Keypress
 var keypress = require('keypress');
-var RollingSpider = require("rolling-spider");
 keypress(process.stdin);
 process.stdin.setRawMode(true);
 process.stdin.resume();
 
+// Rolling spider
+var RollingSpider = require("rolling-spider");
+var d = new RollingSpider({uuid:"c01229b61cbe"}); //rs drone
+//var d = new RollingSpider({uuid:"e01428853dc1"}); // mars drone 
+
 var ACTIVE = true;
 var STEPS = 1;
-var d = new RollingSpider({uuid:"c01229b61cbe"}); //rs drone
-//var d = new RollingSpider({uuid:"e01428853dc1"}); // mars drone
+
 function cooldown() {
 	ACTIVE = false;
 	setTimeout(function (){
@@ -35,15 +47,13 @@ d.connect(function () {
 	});
 });
 
+// johnny-five board 
 var board = new five.Board({
 	port: "/dev/ttyMFD1"
 
-	});
+});
 
-// var cnt=0; //I would like to use this parameter for moving forward indicators
-// Indicate the plan in on
 var stflag=0;
-
 
 //timer
 var start= new Date();
@@ -63,125 +73,17 @@ var dobs = 0;
 var cnt = 0;
 var led1;
 
-//determine the step of drone
-var m = 0; // this is move indicator
 
-board.on("ready",function(){
-	led1=new five.Led(9);
 
-	this.repl.inject({
-		led1: led1
+// Reading from the port
+serialPort.on("open", function(){
+	console.log('open');
+	//listen to incoming data
+	serialPort.on('data', function(data){
+		console.log(data);
 	});
-	
-	// Activate the photo IC
-	//right
-	var photo1 = new five.Sensor({
-		pin: "A1",
-		freq: 10 //10ms sampling
-	});
-	//front
-	var photo2 = new five.Sensor({
-		pin: "A2",
-		freq: 10 //10 ms sampling
-	});
-	//left
-	var photo3 = new five.Sensor({
-		pin: "A3",
-		freq: 10 //10 ms sampling
-	});
-	
-	//for photo IC Rightside
-	photo1.on('data', function(value){
-		// Here we declare the function of the right and the left sensor
-	});
-	
-	//for photo IC Leftside
-	photo3.on('data', function(value){
-		// Here we declare the function of the right and the left sensor
-	});
-	
-	// for photo IC in the front side 
-	photo2.on('data', function(value){
-		if(stflag == 1){
-			//right sensor
-			if(photo1.value < 850){
-				d.tiltLeft({steps: -gain*(initial-STEPS)});
-				cooldown();
-			}                             
-			
-			//left sensor
-			if(photo3.value < 850){
-				d.tiltRight({steps: -gain*(initial-STEPS)});
-				cooldown();
+});
 
-			}
-			
-			//front sensor
-			if(photo2.value < 850){
-				state = STATE0;
-				cnt = cnt+1;
-				switch(state){
-					case STATE0:
-						d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
-						cooldown();
-						stflag = 0; 
-						state = STATE2;
-						cnt = 0;
-					break;
-					
-					case STATE1:
-						d.XYZ({speed_X:10,speed_Y:0,speed_Z:0,speed_omega:0});	
-						cooldown();
-						state = STATE2;
-						cnt = 0;
-					break;
-					
-					case STATE2:
-						d.XYZ({speed_X:0,speed_Y:-40,speed_Z:0,speed_omega:0});
-						cooldown();
-						cnt = 0;
-						state = STATE0;
-					break;	
-
-				} //end of switch
-			} // end of front sensor
-			
-			else{
-				state = STATE0;
-				cnt = cnt + 1;
-				switch(state){
-					case STATE0:
-						if(cnt == 30){
-						d.XYZ({speed_X:0,speed_Y:30,speed_Z:0,speed_omega:0});	
-						cooldown();
-						cnt = 0;
-						state = STATE1;
-						}
-						
-					break;
-					
-					case STATE1: 
-						d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
-						cooldown();
-						cnt = 0;
-						state = STATE0;
-					break;
-
-				} //end of switch
-			} //the end of else
-		} //end of stflag
-		
-	// this for timer of the node.js
-	end = new Date();  
-	executionTime = end.getTime() - start.getTime();
-	while(executionTime < interval) {
-		end = new Date();
-		executionTime = end.getTime() - start.getTime();
-    	}
-    	start = new Date();
-	console.log(photo1.value+ ',', photo2.value + ',', photo3.value + ',', m);
-	});	// end of photo2 value
-}); // board end
 
 // listen for the "keypress" event
 process.stdin.on('keypress', function (ch, key) {
@@ -255,4 +157,4 @@ process.stdin.on('keypress', function (ch, key) {
 		}
 
 	}
-});
+});	
