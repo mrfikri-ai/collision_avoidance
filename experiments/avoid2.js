@@ -2,11 +2,11 @@
 
 // Serial port function
 var serialport = require("serialport");
-var SerialPort = serialport.SerialPort;
+// var SerialPort = serialport.SerialPort;
 
-var serialPort = new SerialPort("/dev//dev/ttyMFD1",{
+var serialPort = new serialport("/dev//dev/ttyMFD1",{
 	baudrate: 9600,
-	parser: serialport.parsers.readline("\n")
+//	parser: serialport.parsers.readline("\n")
 });
 
 // johnny five
@@ -48,6 +48,7 @@ d.connect(function () {
 });
 
 // johnny-five board 
+// this will use if you want to use johnny-five library
 var board = new five.Board({
 	port: "/dev/ttyMFD1"
 
