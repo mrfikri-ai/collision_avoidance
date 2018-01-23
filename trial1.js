@@ -52,9 +52,12 @@ var executionTime;
 const interval=33;
 
 // moving parameter
-var state= 0;
+var state;
 var STATE0=0; //hovering
 var STATE1=1; //Forward
+
+// state parameter
+var d = 0; //parameter to turn on the drone
 
 /*board.on("ready",function(){
 	
@@ -113,24 +116,83 @@ port.on('open', function () {
 	var leftsensor = datum[1]
 	var rightsensor = datum[2]
 //	console.log(datum);
+	if(stflag == 1){
+		if (rightsensor <= 850){
+			console.log("kanan");
+			d.tiltLeft({steps: -gain*(initial-STEPS)})
+			cooldown();
+		}
+		if (leftsensor <= 850){
+			console.log("kiri");
+			d.tiltRight({steps: -gain*(initial-STEPS)});
+			cooldown();
+		}
+	
+		if (frontsensor <= 150){
+			state = STATE0;
+			cnt = cnt + 1;
+			
+			switch(state){
+				case STATE0:
+					d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
+					cooldown();
+					stflag = 0; 
+					state = STATE2;
+					cnt = 0;
+				break;
+					
+				case STATE1:
+					d.XYZ({speed_X:10,speed_Y:0,speed_Z:0,speed_omega:0});	
+					cooldown();
+					state = STATE2;
+					cnt = 0;
+				break;
+					
+				case STATE2:
+					d.XYZ({speed_X:0,speed_Y:-40,speed_Z:0,speed_omega:0});
+					cooldown();
+					cnt = 0;
+					state = STATE0;
+				break;	
+
+			} //end of switch
+		} //end of front sensor
+		
+		else{
+			state = STATE0;
+			cnt = cnt + 1;
+			switch(state){
+				case STATE0:
+					if(cnt == 30){
+						d.XYZ({speed_X:0,speed_Y:30,speed_Z:0,speed_omega:0});	
+						cooldown();
+						cnt = 0;
+						state = STATE1;
+					}	
+					break;
+					
+				case STATE1: 
+					d.XYZ({speed_X:0,speed_Y:0,speed_Z:0,speed_omega:0});	
+					cooldown();
+					cnt = 0;
+					state = STATE0;
+				break;
+
+				} //end of switch
+			} //the end of else
+	} // end of stflag
+	  
+	  // this for timer of the node.js
+		end = new Date();  
+		executionTime = end.getTime() - start.getTime();
+		
+		while(executionTime < interval) {
+			end = new Date();
+			executionTime = end.getTime() - start.getTime();
+    	}
+    	start = new Date();
 	console.log(rightsensor, frontsensor, leftsensor);
-	if (rightsensor <= 850){
-		console.log("kanan");
-		d.tiltLeft({steps: -gain*(initial-STEPS)})
-		cooldown();
-	}
-	
-	if (leftsensor <= 850){
-		console.log("kiri");
-		d.tiltLeft({steps: -gain*(initial-STEPS)});
-		cooldown();
-	}
-	
-	if (frontsensor <= 150){
-		console.log("stop");
-		d.hover();
-		cooldown();
-	}	
+
   });
 });
 
